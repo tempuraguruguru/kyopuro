@@ -46,7 +46,6 @@ int main(){
             if(mid <= (N - 1)){
                 sort(C2.begin()+mid, C2.end());
             }
-            
         }
     }
     for(int i = 0; i < T; i++){

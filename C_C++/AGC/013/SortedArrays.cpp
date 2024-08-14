@@ -2,39 +2,22 @@
 #include <vector>
 using namespace std;
 
-bool OR(vector<int> L){
-    if(L.size() <= 2){
-        return true;
-    }else{
-        int size = L.size();
-        if(L[size-3] <= L[size-2] && L[size-2] <= L[size-1]){
-            return true;
-        } else if(L[size-3] >= L[size-2] && L[size-2] >= L[size-1]){
-            return true;
-        } else{
-            return false;
-        }
-    }
-    return true;
-}
-
 int main(){
     int N;
     cin >> N;
     vector<int> A(N);
     for(int i = 0; i < N; i++) cin >> A[i];
 
-    vector<vector<int>> ans;
-    int j = 0;
-    ans.push_back({});
-    for(int i = 0; i < N; i++){
-        ans[j].push_back(A[i]);
-        if(!OR(ans[j])){
-            ans[j].pop_back();
-            j++;
-            ans.push_back({});
-            ans[j].push_back(A[i]);
+    int count = 0;
+    int i;
+    for(i = 0; i < N; i++){
+        while(i+1 < N && A[i] == A[i+1]) i++;
+        if(i+1 < N && A[i] < A[i+1]){
+            while(i+1 < N && A[i] <= A[i+1]) i++;
+        }else if(i+1 < N && A[i] > A[i+1]){
+            while(i+1 < N && A[i] >= A[i+1]) i++;
         }
+        count++;
     }
-    cout << ans.size() << endl;
+    cout << count << endl;
 }

@@ -2,14 +2,20 @@
 #include <vector>
 using namespace std;
 
-bool LargeOrSmall(bool flag, int current, int next){
-    if(current < next){
+bool OR(vector<int> L){
+    if(L.size() <= 2){
         return true;
+    }else{
+        int size = L.size();
+        if(L[size-3] <= L[size-2] && L[size-2] <= L[size-1]){
+            return true;
+        } else if(L[size-3] >= L[size-2] && L[size-2] >= L[size-1]){
+            return true;
+        } else{
+            return false;
+        }
     }
-    if(current > next){
-        return false;
-    }
-    return flag;
+    return true;
 }
 
 int main(){
@@ -18,14 +24,17 @@ int main(){
     vector<int> A(N);
     for(int i = 0; i < N; i++) cin >> A[i];
 
-    int divide = 0;
-    vector<int> ans;
-    for(int i = 0; i < N-1; i++){
-        int current = A[i];
-        int next = A[i+1];
-        bool flag = LargeOrSmall(flag, current, next);
-        cout << current << " " << next << " " << "flag = " << flag << endl;
-        if(flag){}
+    vector<vector<int>> ans;
+    int j = 0;
+    ans.push_back({});
+    for(int i = 0; i < N; i++){
+        ans[j].push_back(A[i]);
+        if(!OR(ans[j])){
+            ans[j].pop_back();
+            j++;
+            ans.push_back({});
+            ans[j].push_back(A[i]);
+        }
     }
-    cout << divide << endl;
+    cout << ans.size() << endl;
 }

@@ -2,24 +2,19 @@
 #include <vector>
 using namespace std;
 
-int calculate_min_distance(int current, int target, int N){
-    int forward_distance = (target - current + N) % N;
-    int backward_distance = (current - target + N) % N;
-    return min(forward_distance, backward_distance);
-}
-
-bool is_crossing(int left_hand, int right_hand, int target, int N){
-    if(left_hand < right_hand){
-        return (target >= right_hand || target <= left_hand);
+int Calc_Distance(int current, int T[i], int N){
+    int distance_R = 0, distance_L = 0;
+    if(current <= T[i]){
+        distance_R = T[i] - current;
     }else{
-        return (target >= right_hand && target <= left_hand);
+        distance_R = (T[i] + N) - current;
+    }
+    if(current >= T[i]){
+        distance_L = current - T[i];
+    }else{
+        distance_L = (current + N) - T[i];
     }
 }
-
-int calculate_detour_distance(int hand, int target, int N){
-    return calculate_min_distance(hand, target, N);
-}
-
 
 int main(){
     int N, Q;
@@ -33,18 +28,28 @@ int main(){
     int current_left = 1, current_right = 2;
     for(int i = 0; i < Q; i++){
         if(H[i] == 'L'){
-            if(is_crossing(current_left, current_right, T[i], N)){
-                op += calculate_detour_distance(current_right, T[i], N);
+            int distance_R = 0, distance_L = 0;
+            if(current_left <= T[i]){
+                distance_R = T[i] - current_left;
             }else{
-                op += calculate_min_distance(current_left, T[i], N);
-                current_left = T[i];
+                distance_R = (T[i] + N) - current_left;
             }
-        }else if(H[i] == 'R'){
-            if(is_crossing(current_left, current_right, T[i], N)){
-                op += calculate_detour_distance(current_left, T[i], N);
+            if(current_left >= T[i]){
+                distance_L = current_left - T[i];
             }else{
-                op += calculate_min_distance(current_right, T[i], N);
-                current_right = T[i];
+                distance_L = (current_left + N) - T[i];
+            }
+        }else{
+            int distance_R = 0, distance_L = 0;
+            if(current_right <= T[i]){
+                distance_R = T[i] - current_right;
+            }else{
+                distance_R = (T[i] + N) - current_right;
+            }
+            if(current_right >= T[i]){
+                distance_L = current_right - T[i];
+            }else{
+                distance_L = (current_right + N) - T[i];
             }
         }
     }

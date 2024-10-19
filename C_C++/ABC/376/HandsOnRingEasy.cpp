@@ -1,20 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 using namespace std;
-
-int Calc_Distance(int current, int T[i], int N){
-    int distance_R = 0, distance_L = 0;
-    if(current <= T[i]){
-        distance_R = T[i] - current;
-    }else{
-        distance_R = (T[i] + N) - current;
-    }
-    if(current >= T[i]){
-        distance_L = current - T[i];
-    }else{
-        distance_L = (current + N) - T[i];
-    }
-}
 
 int main(){
     int N, Q;
@@ -24,33 +11,27 @@ int main(){
     for(int i = 0; i < Q; i++) cin >> H[i] >> T[i];
 
     int op = 0;
-    int distance;
+    int to, ng;
     int current_left = 1, current_right = 2;
     for(int i = 0; i < Q; i++){
         if(H[i] == 'L'){
-            int distance_R = 0, distance_L = 0;
-            if(current_left <= T[i]){
-                distance_R = T[i] - current_left;
+            to = (T[i] - current_left + N) % N;
+            ng = (current_right - current_left + N) % N;
+            if(ng < to){
+                op += N - to;
             }else{
-                distance_R = (T[i] + N) - current_left;
+                op += to;
             }
-            if(current_left >= T[i]){
-                distance_L = current_left - T[i];
-            }else{
-                distance_L = (current_left + N) - T[i];
-            }
+            current_left = T[i];
         }else{
-            int distance_R = 0, distance_L = 0;
-            if(current_right <= T[i]){
-                distance_R = T[i] - current_right;
+            to = (T[i] - current_right + N) % N;
+            ng = (current_left - current_right + N) % N;
+            if(ng < to){
+                op += N - to;
             }else{
-                distance_R = (T[i] + N) - current_right;
+                op += to;
             }
-            if(current_right >= T[i]){
-                distance_L = current_right - T[i];
-            }else{
-                distance_L = (current_right + N) - T[i];
-            }
+            current_right = T[i];
         }
     }
     cout << op << endl;
